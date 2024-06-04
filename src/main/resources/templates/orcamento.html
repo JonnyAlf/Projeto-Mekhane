@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Orçamentos</title>
+  <style>
+    body {
+      background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/9daff62d46429498ce2ff5ff987c11c1aa81ec75f725995b2bacad6e2cc22a96');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+
+      background-size: cover;
+      background-position: center;
+      color: rgb(255, 255, 255);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .orcamento-info-container {
+      margin-bottom: 20px;
+    }
+
+    .orcamento-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    /* Estilos para os containers de subtotal e total */
+    .subtotal-container,
+    .total-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    /* Estilos para os botões */
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    /* Estilos para as seções de cliente, produto e serviço */
+    .cliente-secao,
+    .produto-secao,
+    .servico-secao {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .cliente-secao img,
+    .produto-secao img,
+    .servico-secao img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .pesquisa-cliente,
+    .pesquisa-produto,
+    .pesquisa-servico {
+      width: 60%;
+      min-width: 60%;
+      background-color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 50px;
+      border-radius: 20px;
+      position: relative;
+      margin: auto;
+    }
+
+    .selecionar,
+    .voltar {
+      border: 0;
+      border-radius: 15%;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .selecionar {
+      position: absolute;
+      right: 20px;
+    }
+
+    .voltar {
+      position: absolute;
+      left: 20px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 10px;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .client-list,
+    .produto-list,
+    .servico-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .client-list li,
+    .produto-list li,
+    .servico-list li {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="orcamento-info-container">
+    <div class="orcamento-info">
+      <div class="label">N° DO ORÇAMENTO</div>
+      <div class="value">12345678</div>
+    </div>
+    <div class="orcamento-info">
+      <div class="label">DATA</div>
+      <div class="value">01/01/2024</div>
+    </div>
+    <div class="orcamento-info">
+      <div class="label">DATA DE ENTREGA</div>
+      <div class="value">05/01/2024</div>
+    </div>
+  </div>
+
+  <div class="subtotal-container">
+    <div class="label">SUBTOTAL</div>
+    <div class="value">R$ 1000,00</div>
+  </div>
+
+  <div class="subtotal-container">
+    <div class="label">ACRÉS./DECRÉS.</div>
+    <div class="value">R$ 0,00</div>
+  </div>
+
+  <div class="total-container">
+    <div class="label">TOTAL R$</div>
+    <div class="value">R$ 1500,00</div>
+  </div>
+
+  <div class="produtos-subtotal-container">
+    <div class="label">SUBTOTAL DOS PRODUTOS:</div>
+    <div class="value">R$ 1000,00</div>
+  </div>
+
+  <div class="total-container">
+    <div class="label">VALOR TOTAL:</div>
+    <div class="value">R$ 1500,00</div>
+  </div>
+
+  <form id="tela-orcamento" action="/orcamento" method="post">
+    <div class="cliente-secao">
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/5eaf9085d346af41e95a93d2ec7a1eeff6abe41e6b464441f6a5a7d71f0e3f68?apiKey=11b6593f692044c089aa40249f46effd&width=100"
+        alt="Cliente" />
+      <button type="button" id="botao-cliente">CLIENTE</button>
+    </div>
+
+    <div class="produto-secao">
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/491c957ee4daaf2eddf67072f7e9389e2c6c26b537e2adc18413830b7fd1919a?apiKey=11b6593f692044c089aa40249f46effd&width=100"
+        alt="Produtos" />
+      <button type="button" id="botao-produto">PRODUTOS</button>
+    </div>
+
+    <div class="servico-secao">
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/81f46217174612c16d090dbe17acab3c16165bf7b7be3e65fa40fbda2d02fc1d?apiKey=11b6593f692044c089aa40249f46effd&width=100"
+        alt="Serviços" />
+      <button type="button" id="botao-servico">SERVIÇOS</button>
+    </div>
+  </form>
+
+  <div class="modal" id="modal-cliente">
+    <div class="modal-content pesquisa-cliente">
+      <input type="text" id="search-bar-cliente" class="search-bar" placeholder="Pesquisar clientes...">
+      <ul id="client-list" class="client-list"></ul>
+      <button class="voltar" id="voltar-cliente">Voltar</button>
+      <button class="selecionar" id="selecionar-cliente">Selecionar</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-produto">
+    <div class="modal-content pesquisa-produto">
+      <input type="text" id="search-bar-produto" class="search-bar" placeholder="Pesquisar produtos...">
+      <ul id="produto-list" class="produto-list"></ul>
+      <button class="voltar" id="voltar-produto">Voltar</button>
+      <button class="selecionar" id="selecionar-produto">Selecionar</button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-servico">
+    <div class="modal-content pesquisa-servico">
+      <input type="text" id="search-bar-servico" class="search-bar" placeholder="Pesquisar serviços...">
+      <ul id="servico-list" class="servico-list"></ul>
+      <button class="voltar" id="voltar-servico">Voltar</button>
+      <button class="selecionar" id="selecionar-servico">Selecionar</button>
+    </div>
+  </div>
+
+  <div class="gerar-ordem-servico">
+    <button class="button">GERAR ORDEM DE SERVIÇO</button>
+  </div>
+
+  </div>
+
+  <script>
+    // JavaScript para controlar a exibição do modal e buscar clientes
+    document.getElementById('botao-cliente').onclick = function () {
+      document.getElementById('modal-cliente').style.display = 'block';
+      fetchClientes('');
+    };
+
+    document.getElementById('botao-produto').onclick = function () {
+      document.getElementById('modal-produto').style.display = 'block';
+      fetchProdutos('');
+    };
+
+    document.getElementById('botao-servico').onclick = function () {
+      document.getElementById('modal-servico').style.display = 'block';
+      fetchServicos('');
+    };
+
+    document.getElementById('voltar-cliente').onclick = function () {
+      document.getElementById('modal-cliente').style.display = 'none';
+    };
+
+    document.getElementById('voltar-produto').onclick = function () {
+      document.getElementById('modal-produto').style.display = 'none';
+    };
+
+    document.getElementById('voltar-servico').onclick = function () {
+      document.getElementById('modal-servico').style.display = 'none';
+    };
+
+    window.onclick = function (event) {
+      if (event.target == document.getElementById('modal-cliente')) {
+        document.getElementById('modal-cliente').style.display = 'none';
+      } else if (event.target == document.getElementById('modal-produto')) {
+        document.getElementById('modal-produto').style.display = 'none';
+      } else if (event.target == document.getElementById('modal-servico')) {
+        document.getElementById('modal-servico').style.display = 'none';
+      }
+    };
+
+    document.getElementById('search-bar-cliente').onkeyup = function () {
+      const searchTerm = this.value.toLowerCase();
+      fetchClientes(searchTerm);
+    };
+
+    document.getElementById('search-bar-produto').onkeyup = function () {
+      const searchTerm = this.value.toLowerCase();
+      fetchProdutos(searchTerm);
+    };
+
+    document.getElementById('search-bar-servico').onkeyup = function () {
+      const searchTerm = this.value.toLowerCase();
+      fetchServicos(searchTerm);
+    };
+
+    function fetchClientes(nome) {
+      fetch('/clientes?nome=' + nome)
+        .then(response => response.json())
+        .then(data => {
+          const clientList = document.getElementById('client-list');
+          clientList.innerHTML = '';
+          data.forEach(cliente => {
+            const li = document.createElement('li');
+            li.textContent = cliente;
+            clientList.appendChild(li);
+          });
+        });
+    }
+
+    function fetchProdutos(nome) {
+      fetch('/produtos?nome=' + nome)
+        .then(response => response.json())
+        .then(data => {
+          const produtoList = document.getElementById('produto-list');
+          produtoList.innerHTML = '';
+          data.forEach(produto => {
+            const li = document.createElement('li');
+            li.textContent = produto;
+            produtoList.appendChild(li);
+          });
+        });
+    }
+
+    function fetchServicos(nome) {
+      fetch('/servicos?nome=' + nome)
+        .then(response => response.json())
+        .then(data => {
+          const servicoList = document.getElementById('servico-list');
+          servicoList.innerHTML = '';
+          data.forEach(servico => {
+            const li = document.createElement('li');
+            li.textContent = servico;
+            servicoList.appendChild(li);
+          });
+        });
+    }
+  </script>
+</body>
+
+</html>
