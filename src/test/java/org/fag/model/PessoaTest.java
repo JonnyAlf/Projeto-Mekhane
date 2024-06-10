@@ -1,30 +1,20 @@
-package org.fag.model;
+/*
+ package org.fag.model;
 
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Persistence;
+import java.util.List;
 
 public class PessoaTest {
-
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mekhane");
-    private static EntityManager entityManager = entityManagerFactory.createEntityManager();
-
     public static void main(String[] args) {
-        try {
-            Pessoa pessoa = entityManager.find(Pessoa.class, 1);
-            if (pessoa != null) {
-                System.out.println("\n Nome pessoa: " + pessoa.getNome() +
-                                   "\n CPF ou CNPJ: " + pessoa.getCpfCnpj() +
-                                   "\n RG: " + pessoa.getRg() +
-                                   "\n Telefone: " + pessoa.getTelefone());
-            } else {
-                System.out.println("Pessoa não encontrada.");
+        List<Pessoa> pessoas = Pessoa.buscarPorNome("Maria Mole");
+        if (pessoas != null && !pessoas.isEmpty()) {
+            System.out.println("Pessoas encontradas com o nome 'Maria Mole':");
+            for (Pessoa pessoa : pessoas) {
+                System.out.println("ID: " + pessoa.getIdPessoa() + ", Nome: " + pessoa.getNome());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            entityManager.close();
-            entityManagerFactory.close();
+        } else {
+            System.out.println("Nenhuma pessoa encontrada com o nome 'Maria Mole'.");
         }
     }
 }
+
+ */

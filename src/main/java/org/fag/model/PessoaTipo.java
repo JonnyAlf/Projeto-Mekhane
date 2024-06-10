@@ -1,5 +1,7 @@
 package org.fag.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,41 +16,37 @@ public class PessoaTipo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPedido;
+    private int idPessoaTipo;
 
-   
     @ManyToOne
     @JoinColumn(name = "idpessoa")
+    @JsonIgnore
     private Pessoa pessoa;
 
     @ManyToOne
     @JoinColumn(name = "idtipo")
+    @JsonIgnore
     private Tipo tipo;
 
-    public int getIdPedido() {
-        return idPedido;
+    public int getIdPessoaTipo() {
+        return idPessoaTipo;
     }
 
-
-    public void setIdPedido(int idPedido) {
-        this.idPedido = idPedido;
+    public void setIdPessoaTipo(int idPessoaTipo) {
+        this.idPessoaTipo = idPessoaTipo;
     }
-
 
     public Pessoa getPessoa() {
         return pessoa;
     }
 
-
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
 
-
     public Tipo getTipo() {
         return tipo;
     }
-
 
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;

@@ -6,110 +6,47 @@
   <title>Orçamentos</title>
   <style>
     body {
-      background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/9daff62d46429498ce2ff5ff987c11c1aa81ec75f725995b2bacad6e2cc22a96');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-
-      background-size: cover;
-      background-position: center;
-      color: rgb(255, 255, 255);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      font-family: 'Arial', sans-serif;
       margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
     }
 
-    .orcamento-info-container {
-      margin-bottom: 20px;
-    }
-
-    .orcamento-info {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 5px;
-    }
-
-    .label {
-      font-weight: bold;
-    }
-
-    /* Estilos para os containers de subtotal e total */
-    .subtotal-container,
-    .total-container {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 5px;
-    }
-
-    /* Estilos para os botões */
-    .button {
+    .botao-cliente,
+    .botao-servico,
+    .botao-peca,
+    .botao-ordem-servico {
       background-color: #4CAF50;
       border: none;
       color: white;
-      padding: 15px 32px;
+      padding: 4px 8px;
       text-align: center;
       text-decoration: none;
       display: inline-block;
-      font-size: 16px;
+      font-size: 12px;
       margin: 4px 2px;
       cursor: pointer;
-      border-radius: 8px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
     }
 
-    /* Estilos para as seções de cliente, produto e serviço */
-    .cliente-secao,
-    .produto-secao,
-    .servico-secao {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
+    button:hover {
+      background-color: #3e8e41;
     }
 
-    .cliente-secao img,
-    .produto-secao img,
-    .servico-secao img {
-      width: 100px;
-      height: auto;
-      margin-bottom: 10px;
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
     }
 
-    .pesquisa-cliente,
-    .pesquisa-produto,
-    .pesquisa-servico {
-      width: 60%;
-      min-width: 60%;
-      background-color: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      padding: 50px;
-      border-radius: 20px;
-      position: relative;
-      margin: auto;
-    }
-
-    .selecionar,
-    .voltar {
-      border: 0;
-      border-radius: 15%;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .selecionar {
-      position: absolute;
-      right: 20px;
-    }
-
-    .voltar {
-      position: absolute;
-      left: 20px;
+    input[type=text]:focus {
+      border: 2px solid #4CAF50;
     }
 
     .modal {
@@ -130,166 +67,291 @@
       padding: 20px;
       border: 1px solid #888;
       width: 80%;
-      max-width: 600px;
-      border-radius: 10px;
-    }
-
-    .search-bar {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
       border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 16px;
     }
+.secao-container {
+  display: flex; 
+  justify-content: space-around; 
+  width: 11%; 
+  margin: 0px ;
+  margin-left: 2%;
+}
+
+.cliente-secao,
+.peca-secao,
+.servico-secao {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin: 0; 
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cliente-secao img,
+.peca-secao img,
+.servico-secao img {
+  width: 30px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.cliente-secao button,
+.peca-secao button,
+.servico-secao button {
+  flex-shrink: 0;
+}
 
     .client-list,
-    .produto-list,
+    .peca-list,
     .servico-list {
-      list-style: none;
+      list-style-type: none;
       padding: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
     .client-list li,
-    .produto-list li,
+    .peca-list li,
     .servico-list li {
       padding: 10px;
-      border-bottom: 1px solid #ccc;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .client-list li:hover,
+    .peca-list li:hover,
+    .servico-list li:hover {
+      background-color: #f2f2f2;
+    }
+
+    .linha-divisoria {
+      border-bottom: 1px solid #000;
+      margin: 10px 0;
+    }
+
+    .peca-list li.selected,
+    .servico-list li.selected {
+      background-color: #ccc;
+    }
+
+    .descricao-peca,
+    .descricao-servico {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 100 200px 300px rgba(0, 0, 0, 0.288);
+      width: calc(100% - 40px);
+      max-width: 95%;
+    }
+
+    .tabela-descricao-peca,
+    .tabela-valor-peca,
+    .tabela-descricao-servico,
+    .tabela-valor-servico,
+    .tabela-tempo-servico {
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tabela-descricao-peca span,
+    .tabela-valor-peca span,
+    .tabela-descricao-servico span,
+    .tabela-valor-servico span,
+    .tabela-tempo-servico span {
+      justify-content: center;
+      width: 100%;
+      white-space: nowrap;
+      margin-right: 200px;
+    }
+
+    .excluir {
+      float: right;
+      margin-top: -10px;
+      margin-right: -10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .total,
+    .subtotal {
+      display: inline-block;
+      justify-content: center;
+
+      align-items: center;
+      margin: 10px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 100 200px 300px rgba(0, 0, 0, 0.663);
+      width: calc(100% - 40px);
+      max-width: 20%;
+    }
+
+    .container-total {
+      display: flex;
+    }
+
+    .botao-ordem-servico {
+      display: block;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
 
 <body>
-  <div class="orcamento-info-container">
-    <div class="orcamento-info">
-      <div class="label">N° DO ORÇAMENTO</div>
-      <div class="value">12345678</div>
-    </div>
-    <div class="orcamento-info">
-      <div class="label">DATA</div>
-      <div class="value">01/01/2024</div>
-    </div>
-    <div class="orcamento-info">
-      <div class="label">DATA DE ENTREGA</div>
-      <div class="value">05/01/2024</div>
-    </div>
-  </div>
-
-  <div class="subtotal-container">
-    <div class="label">SUBTOTAL</div>
-    <div class="value">R$ 1000,00</div>
-  </div>
-
-  <div class="subtotal-container">
-    <div class="label">ACRÉS./DECRÉS.</div>
-    <div class="value">R$ 0,00</div>
-  </div>
-
-  <div class="total-container">
-    <div class="label">TOTAL R$</div>
-    <div class="value">R$ 1500,00</div>
-  </div>
-
-  <div class="produtos-subtotal-container">
-    <div class="label">SUBTOTAL DOS PRODUTOS:</div>
-    <div class="value">R$ 1000,00</div>
-  </div>
-
-  <div class="total-container">
-    <div class="label">VALOR TOTAL:</div>
-    <div class="value">R$ 1500,00</div>
-  </div>
 
   <form id="tela-orcamento" action="/orcamento" method="post">
+
+
+    <h1>MEKHANE</h1>
+    <H2>ORÇAMENTO</H2>
+
+    <div class="cabecario" id="cabecario">
+      <div class="idorcamento" id="idorcamento">N° DO ORÇAMENTO</div>
+      <div class="numero-orcamento" id="numero-orcamento"></div>
+      <div class="nome-cliente" id="cliente-nome"> CLIENTE: </div>
+      <div class="nome-veiculo" id="veiculo-nome"> VEICULO: </div>
+    </div>
+    <div class="secao-container">
     <div class="cliente-secao">
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/5eaf9085d346af41e95a93d2ec7a1eeff6abe41e6b464441f6a5a7d71f0e3f68?apiKey=11b6593f692044c089aa40249f46effd&width=100"
-        alt="Cliente" />
-      <button type="button" id="botao-cliente">CLIENTE</button>
+        alt="veiculo" />
+      <button type="button" class="botao-cliente" id="botao-cliente">CLIENTE</button>
     </div>
 
-    <div class="produto-secao">
+    <div class="peca-secao">
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/491c957ee4daaf2eddf67072f7e9389e2c6c26b537e2adc18413830b7fd1919a?apiKey=11b6593f692044c089aa40249f46effd&width=100"
-        alt="Produtos" />
-      <button type="button" id="botao-produto">PRODUTOS</button>
+        alt="peca" />
+      <button type="button" class="botao-peca" id="botao-peca">PEÇAS</button>
     </div>
 
     <div class="servico-secao">
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/81f46217174612c16d090dbe17acab3c16165bf7b7be3e65fa40fbda2d02fc1d?apiKey=11b6593f692044c089aa40249f46effd&width=100"
         alt="Serviços" />
-      <button type="button" id="botao-servico">SERVIÇOS</button>
+      <button type="button" class="botao-servico" id="botao-servico">SERVIÇOS</button>
     </div>
   </form>
-
+  </div>
   <div class="modal" id="modal-cliente">
     <div class="modal-content pesquisa-cliente">
       <input type="text" id="search-bar-cliente" class="search-bar" placeholder="Pesquisar clientes...">
-      <ul id="client-list" class="client-list"></ul>
+      <div id="client-list" class="client-list"></div>
       <button class="voltar" id="voltar-cliente">Voltar</button>
       <button class="selecionar" id="selecionar-cliente">Selecionar</button>
     </div>
   </div>
 
-  <div class="modal" id="modal-produto">
-    <div class="modal-content pesquisa-produto">
-      <input type="text" id="search-bar-produto" class="search-bar" placeholder="Pesquisar produtos...">
-      <ul id="produto-list" class="produto-list"></ul>
-      <button class="voltar" id="voltar-produto">Voltar</button>
-      <button class="selecionar" id="selecionar-produto">Selecionar</button>
+  <div class="modal" id="modal-peca">
+    <div class="modal-content pesquisa-peca">
+      <input type="text" id="search-bar-peca" class="search-bar" placeholder="Pesquisar peças...">
+      <div id="peca-list" class="peca-list"></div>
+      <button class="voltar" id="voltar-peca">Voltar</button>
+      <button class="selecionar" id="selecionar-peca">Selecionar</button>
     </div>
   </div>
 
   <div class="modal" id="modal-servico">
     <div class="modal-content pesquisa-servico">
       <input type="text" id="search-bar-servico" class="search-bar" placeholder="Pesquisar serviços...">
-      <ul id="servico-list" class="servico-list"></ul>
+      <div id="servico-list" class="servico-list"></div>
       <button class="voltar" id="voltar-servico">Voltar</button>
       <button class="selecionar" id="selecionar-servico">Selecionar</button>
     </div>
   </div>
 
-  <div class="gerar-ordem-servico">
-    <button class="button">GERAR ORDEM DE SERVIÇO</button>
+  <div class="descricao-servico" id="descricao-servico">
+    <div class="tabela-descricao-servico" id="tabela-descricao-servico">
+      <div class="titulo-servico" id="titulo-servico"><span>SERVIÇO:</span></div>
+      <div id="servico-nome"></div>
+    </div>
+    <div class="valores-servico" id="valores-servico">
+      <div class="tabela-valor-servico" id="tabela-valor-servico"><span>MÃO DE OBRA:</span></div>
+      <div id="valor-servico"></div>
+    </div>
+    <div class="tempo-servico" id="tempo-servico">
+      <div class="tabela-tempo-servico" id="tabela-tempo-servico"><span>TEMPO DE SERVIÇO:</span></div>
+      <div id="tempo-servico-horas"></div>
+    </div>
+    <button class="excluir" id="excluir">X</button>
   </div>
+
+  <div class="descricao-peca" id="descricao-peca">
+    <div class="tabela-descricao-peca" id="tabela-descricao-peca">
+      <div class="titulo-peca" id="titulo-peca"><span>PEÇAS:</span></div>
+      <div id="peca-nome"></div>
+    </div>
+    <div class="valores-peca" id="valores-peca">
+      <div class="tabela-valor-peca" id="tabela-valor-peca"><span>VALOR:</span></div>
+      <div id="valor-peca"></div>
+    </div>
+  </div>
+  <div class="container-total">
+    <div class="subtotal" id="subtotal">
+      <div class="subtotal-produto" id="idorcamento">SUBTOTAL DAS PEÇAS:</div>
+      <div class="valor-subtotal" id="valor-subtotal"></div>
+    </div>
+    <div class="total" id="total">
+      <div class="servico-valor-total" id="servico-valor-total">VALOR TOTAL:</div>
+      <div class="valor-total" id="valor-total"></div>
+    </div>
+  </div>
+
+  <div class="gerar-ordem-servico">
+    <button id="botao-ordem-servico" class="botao-ordem-servico">GERAR ORDEM DE SERVIÇO</button>
 
   </div>
 
   <script>
-    // JavaScript para controlar a exibição do modal e buscar clientes
+
+    let horasServico;
+    let idPeca = []; // Modificado para array
+    let idServico = []; // Modificado para array
+    let idMecanica = 1;
+    let VeiculoID;
+    let idPessoa;
+    let valorSubTotal = 0; // Inicializado
+    let valorTotal = 0; // Inicializado
+
+    function formatarValor(valor) {
+      return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
     document.getElementById('botao-cliente').onclick = function () {
       document.getElementById('modal-cliente').style.display = 'block';
       fetchClientes('');
-    };
-
-    document.getElementById('botao-produto').onclick = function () {
-      document.getElementById('modal-produto').style.display = 'block';
-      fetchProdutos('');
-    };
-
-    document.getElementById('botao-servico').onclick = function () {
-      document.getElementById('modal-servico').style.display = 'block';
-      fetchServicos('');
     };
 
     document.getElementById('voltar-cliente').onclick = function () {
       document.getElementById('modal-cliente').style.display = 'none';
     };
 
-    document.getElementById('voltar-produto').onclick = function () {
-      document.getElementById('modal-produto').style.display = 'none';
-    };
-
-    document.getElementById('voltar-servico').onclick = function () {
-      document.getElementById('modal-servico').style.display = 'none';
-    };
-
     window.onclick = function (event) {
       if (event.target == document.getElementById('modal-cliente')) {
         document.getElementById('modal-cliente').style.display = 'none';
-      } else if (event.target == document.getElementById('modal-produto')) {
-        document.getElementById('modal-produto').style.display = 'none';
+      } else if (event.target == document.getElementById('modal-peca')) {
+        document.getElementById('modal-peca').style.display = 'none';
       } else if (event.target == document.getElementById('modal-servico')) {
         document.getElementById('modal-servico').style.display = 'none';
       }
@@ -300,14 +362,18 @@
       fetchClientes(searchTerm);
     };
 
-    document.getElementById('search-bar-produto').onkeyup = function () {
-      const searchTerm = this.value.toLowerCase();
-      fetchProdutos(searchTerm);
-    };
+    document.getElementById('selecionar-cliente').onclick = function () {
+      const selectedClient = document.querySelector('.client-list li.selected');
 
-    document.getElementById('search-bar-servico').onkeyup = function () {
-      const searchTerm = this.value.toLowerCase();
-      fetchServicos(searchTerm);
+      if (selectedClient) {
+        const nome = selectedClient.textContent.trim();
+        const id = selectedClient.getAttribute('data-id');
+
+        document.getElementById('cliente-nome').textContent = 'Cliente: ' + id + " - " + nome;
+        document.getElementById('modal-cliente').style.display = 'none';
+      } else {
+        alert('Selecione um cliente antes de continuar.');
+      }
     };
 
     function fetchClientes(nome) {
@@ -316,41 +382,311 @@
         .then(data => {
           const clientList = document.getElementById('client-list');
           clientList.innerHTML = '';
-          data.forEach(cliente => {
+          data.forEach(pessoa => {
             const li = document.createElement('li');
-            li.textContent = cliente;
+            li.textContent = pessoa.nome;
+            li.setAttribute('data-id', pessoa.idPessoa);
+            li.addEventListener('click', function () {
+              VeiculoID = pessoa.veiculos[0].idVeiculo;
+              idPessoa = pessoa.idPessoa;
+              document.getElementById('veiculo-nome').textContent = 'Veículo: ' + pessoa.veiculos[0].modelo + ' | Cor: ' + pessoa.veiculos[0].cor + ' | Ano: ' + pessoa.veiculos[0].fabricacao;
+              const selected = document.querySelector('.client-list li.selected');
+              if (selected) selected.classList.remove('selected');
+              this.classList.add('selected');
+            });
             clientList.appendChild(li);
           });
+        })
+        .catch(error => {
+          console.error('Erro ao buscar clientes:', error);
         });
     }
+    document.getElementById('botao-peca').onclick = function () {
+      document.getElementById('modal-peca').style.display = 'block';
+    };
 
-    function fetchProdutos(nome) {
-      fetch('/produtos?nome=' + nome)
-        .then(response => response.json())
+    document.getElementById('voltar-peca').onclick = function () {
+      document.getElementById('modal-peca').style.display = 'none';
+    };
+
+    document.getElementById('search-bar-peca').onkeyup = function () {
+      const searchTerm = this.value.toLowerCase();
+      fetchMontagem(searchTerm);
+    };
+
+    let pecasSelecionadas = [];
+
+    function exibirPecasSelecionadas() {
+      const descricaoPecaDiv = document.getElementById('peca-nome');
+      const valorPecaDiv = document.getElementById('valor-peca');
+
+      descricaoPecaDiv.innerHTML = '';
+      valorPecaDiv.innerHTML = '';
+
+      pecasSelecionadas.forEach(peca => {
+        const descricaoPecaSpan = document.createElement('span');
+        descricaoPecaSpan.textContent = peca.descricao;
+
+        const valorPecaSpan = document.createElement('span');
+        valorPecaSpan.textContent = formatarValor(parseFloat(peca.preco));
+
+        const descricaoPecaDivNova = document.createElement('div');
+        descricaoPecaDivNova.classList.add('descricao-peca-item');
+        descricaoPecaDivNova.appendChild(descricaoPecaSpan);
+
+        const valorPecaDivNova = document.createElement('div');
+        valorPecaDivNova.classList.add('valor-peca-item');
+        valorPecaDivNova.appendChild(valorPecaSpan);
+
+        descricaoPecaDiv.appendChild(descricaoPecaDivNova);
+        valorPecaDiv.appendChild(valorPecaDivNova);
+      });
+
+      const linhaDivisoria = document.createElement('div');
+      linhaDivisoria.classList.add('linha-divisoria');
+      descricaoPecaDiv.appendChild(linhaDivisoria.cloneNode(true));
+      valorPecaDiv.appendChild(linhaDivisoria.cloneNode(true));
+
+      console.log("Peças Selecionadas:");
+      pecasSelecionadas.forEach(peca => {
+        console.log("Descrição:", peca.descricao, "| Preço:", peca.preco);
+      });
+    }
+
+
+    document.getElementById('selecionar-peca').onclick = function () {
+      const selectedPeca = document.querySelector('.peca-list li.selected');
+
+      if (selectedPeca) {
+        const descricao = selectedPeca.textContent.trim();
+        const preco = selectedPeca.getAttribute('data-preco');
+
+        pecasSelecionadas.push({
+          descricao: descricao,
+          preco: preco
+        });
+
+        exibirPecasSelecionadas();
+        calcularValorSubTotal();
+        calcularValorTotal();
+        document.getElementById('modal-peca').style.display = 'none';
+      } else {
+        alert('Selecione uma peça antes de continuar.');
+      }
+    };
+
+    function fetchMontagem(nome) {
+      fetch('/montagem?descricao=' + nome + '&idVeiculo=' + VeiculoID)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao buscar montagem');
+          }
+          return response.json();
+        })
         .then(data => {
-          const produtoList = document.getElementById('produto-list');
-          produtoList.innerHTML = '';
-          data.forEach(produto => {
+          const PecaList = document.getElementById('peca-list');
+          PecaList.innerHTML = '';
+          data.forEach(montagem => {
             const li = document.createElement('li');
-            li.textContent = produto;
-            produtoList.appendChild(li);
+            li.textContent = montagem.peca.descricao;
+            li.setAttribute('data-id', montagem.id);
+            li.setAttribute('data-preco', montagem.preco);
+            li.addEventListener('click', function () {
+              idPeca = montagem.idPeca;
+              const selected = document.querySelector('.peca-list li.selected');
+              if (selected) selected.classList.remove('selected');
+              this.classList.add('selected');
+            });
+            PecaList.appendChild(li);
           });
+        })
+        .catch(error => {
+          console.error('Erro ao buscar peças:', error);
+          alert('Ocorreu um erro ao buscar as peças. Por favor, tente novamente mais tarde.');
         });
     }
 
-    function fetchServicos(nome) {
-      fetch('/servicos?nome=' + nome)
-        .then(response => response.json())
+    document.getElementById('botao-servico').onclick = function () {
+      document.getElementById('modal-servico').style.display = 'block';
+    };
+
+    document.getElementById('voltar-servico').onclick = function () {
+      document.getElementById('modal-servico').style.display = 'none';
+    };
+
+    document.getElementById('search-bar-servico').onkeyup = function () {
+      const searchTerm = this.value.toLowerCase();
+      fetchServico(searchTerm);
+    };
+
+    let servicosSelecionados = [];
+
+    function exibirServicosSelecionados() {
+      const servicoNomeDiv = document.getElementById('servico-nome');
+      const valorServicoDiv = document.getElementById('valor-servico');
+      const tempoServicoDiv = document.getElementById('tempo-servico-horas');
+
+      servicoNomeDiv.innerHTML = '';
+      valorServicoDiv.innerHTML = '';
+      tempoServicoDiv.innerHTML = '';
+
+      servicosSelecionados.forEach(servico => {
+        const servicoNomeSpan = document.createElement('span');
+        servicoNomeSpan.textContent = servico.nome;
+
+        const valorServicoSpan = document.createElement('span');
+        valorServicoSpan.textContent = formatarValor(parseFloat(servico.valor));
+
+        const tempoServicoSpan = document.createElement('span');
+        tempoServicoSpan.textContent = servico.tempo;
+
+        const servicoNomeDivNovo = document.createElement('div');
+        servicoNomeDivNovo.classList.add('descricao-servico-item');
+        servicoNomeDivNovo.appendChild(servicoNomeSpan);
+
+        const valorServicoDivNovo = document.createElement('div');
+        valorServicoDivNovo.classList.add('valor-servico-item');
+        valorServicoDivNovo.appendChild(valorServicoSpan);
+
+        const tempoServicoDivNovo = document.createElement('div');
+        tempoServicoDivNovo.classList.add('tempo-servico-item');
+        tempoServicoDivNovo.appendChild(tempoServicoSpan);
+
+        servicoNomeDiv.appendChild(servicoNomeDivNovo);
+        valorServicoDiv.appendChild(valorServicoDivNovo);
+        tempoServicoDiv.appendChild(tempoServicoDivNovo);
+      });
+
+      const linhaDivisoria = document.createElement('div');
+      linhaDivisoria.classList.add('linha-divisoria');
+      servicoNomeDiv.appendChild(linhaDivisoria.cloneNode(true));
+      valorServicoDiv.appendChild(linhaDivisoria.cloneNode(true));
+      tempoServicoDiv.appendChild(linhaDivisoria.cloneNode(true));
+
+      console.log("Serviços Selecionados:");
+      servicosSelecionados.forEach(servico => {
+        console.log("Nome:", servico.nome, "| Valor:", servico.valor, "| Tempo:", servico.tempo);
+      });
+    }
+
+    document.getElementById('selecionar-servico').onclick = function () {
+      const selectedServico = document.querySelector('.servico-list li.selected');
+
+      if (selectedServico) {
+        const nome = selectedServico.textContent.trim();
+        const valor = selectedServico.getAttribute('data-valor');
+        const tempo = selectedServico.getAttribute('data-tempo');
+
+        servicosSelecionados.push({
+          nome: nome,
+          valor: valor,
+          tempo: tempo
+        });
+
+        exibirServicosSelecionados();
+        calcularValorTotal();
+        document.getElementById('modal-servico').style.display = 'none';
+      } else {
+        alert('Selecione um serviço antes de continuar.');
+      }
+    };
+
+    function fetchServico(nome) {
+      fetch('/servico?descricao=' + nome)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao buscar serviços');
+          }
+          return response.json();
+        })
         .then(data => {
           const servicoList = document.getElementById('servico-list');
           servicoList.innerHTML = '';
           data.forEach(servico => {
             const li = document.createElement('li');
-            li.textContent = servico;
+            li.textContent = servico.descricao;
+            li.setAttribute('data-id', servico.idServico);
+            li.setAttribute('data-valor', servico.valor);
+            li.setAttribute('data-tempo', servico.tempoServico);
+
+            li.addEventListener('click', function () {
+              horasServico = servico.tempoServico;
+              idServico = servico.idServico;
+              const selected = document.querySelector('.servico-list li.selected');
+              if (selected) selected.classList.remove('selected');
+              this.classList.add('selected');
+            });
+
             servicoList.appendChild(li);
           });
+        })
+        .catch(error => {
+          console.error('Erro ao buscar serviços:', error);
+          alert('Ocorreu um erro ao buscar os serviços. Por favor, tente novamente mais tarde.');
         });
     }
+
+    function calcularValorSubTotal() {
+      let total = 0;
+      pecasSelecionadas.forEach(peca => {
+        total += parseFloat(peca.preco);
+      });
+      valorSubTotal += total;
+      document.getElementById('valor-subtotal').textContent = formatarValor(total);
+    }
+
+    function calcularValorTotal() {
+      let total = 0;
+      pecasSelecionadas.forEach(peca => {
+        total += parseFloat(peca.preco);
+      });
+
+      servicosSelecionados.forEach(servico => {
+        total += parseFloat(servico.valor);
+      });
+
+      document.getElementById('valor-total').textContent = formatarValor(total);
+    }
+
+    document.getElementById('botao-ordem-servico').onclick = function () {
+      const dadosOrdemServico = {
+        horasServico: horasServico,
+        idPeca: pecasSelecionadas.map(peca => peca.id), // Modificado
+        idServico: servicosSelecionados.map(servico => servico.id), // Modificado
+        idMecanica: idMecanica,
+        VeiculoID: VeiculoID,
+        idPessoa: idPessoa,
+        valorSubTotal: valorSubTotal,
+        valorTotal: valorTotal
+      };
+
+
+      // Enviar os dados para o servidor via POST
+      fetch('/orcamento', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dadosOrdemServico)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao gerar ordem de serviço');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Lidar com a resposta do servidor, se necessário
+          console.log('Ordem de serviço gerada com sucesso:', data);
+          // Você pode redirecionar o usuário ou fazer qualquer outra ação aqui
+        })
+        .catch(error => {
+          console.error('Erro ao gerar ordem de serviço:', error);
+          // Lidar com o erro, se necessário
+          alert('Erro ao gerar ordem de serviço. Por favor, tente novamente mais tarde.');
+        });
+    };
+
   </script>
 </body>
 

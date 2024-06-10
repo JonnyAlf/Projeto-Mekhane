@@ -9,31 +9,30 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tipo")
-public class Tipo {
+@Table(name = "peca")
+public class Peca {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idTipo;
+    private int idPeca;
 
     @Column(name = "descricao")
     private String descricao;
 
-    @OneToMany(mappedBy = "tipo")
+    @OneToMany(mappedBy = "peca")
     @JsonIgnore
-    private List<PessoaTipo> pessoaTipos;
+    private List<Montagem> montagens;
 
-    public int getIdTipo() {
-        return idTipo;
+    public int getIdPeca() {
+        return idPeca;
     }
 
-    public void setIdTipo(int idTipo) {
-        this.idTipo = idTipo;
+    public void setIdPeca(int idPeca) {
+        this.idPeca = idPeca;
     }
 
     public String getDescricao() {
@@ -44,12 +43,11 @@ public class Tipo {
         this.descricao = descricao;
     }
 
-    public List<PessoaTipo> getPessoaTipos() {
-        return pessoaTipos;
+    public List<Montagem> getMontagens() {
+        return montagens;
     }
 
-    public void setPessoaTipos(List<PessoaTipo> pessoaTipos) {
-        this.pessoaTipos = pessoaTipos;
+    public void setMontagens(List<Montagem> montagens) {
+        this.montagens = montagens;
     }
-
 }

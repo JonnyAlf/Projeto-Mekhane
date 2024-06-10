@@ -8,6 +8,18 @@
         <!-- Define o provedor de persistência. Neste caso, o Hibernate. -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+        <!-- Lista de classes de entidades -->
+        <class>org.fag.model.Endereco</class>
+        <class>org.fag.model.Montagem</class>
+        <class>org.fag.model.OrcamentoDTO</class>
+        <class>org.fag.model.Peca</class>
+        <class>org.fag.model.Pedido</class>
+        <class>org.fag.model.Pessoa</class>
+        <class>org.fag.model.PessoaTipo</class>
+        <class>org.fag.model.Servico</class>
+        <class>org.fag.model.Tipo</class>
+        <class>org.fag.model.Veiculo</class>
+        
         <!-- Configurações específicas do provedor de persistência -->
         <properties>
             <!-- Configurações do banco de dados -->

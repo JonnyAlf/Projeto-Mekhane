@@ -2,21 +2,19 @@ package org.fag.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.Table;
-import jakarta.persistence.TypedQuery;
+
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "pessoa")
-public class Pessoa {
+public class Pessoa{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,9 +38,12 @@ public class Pessoa {
     @OneToMany(mappedBy = "pessoa")
     private List<Veiculo> veiculos;
 
-    @ManyToMany(mappedBy = "pessoa")
+    @OneToMany(mappedBy = "pessoa")
+    @JsonIgnore
     private List<PessoaTipo> pessoaTipos;
-    
+
+    @OneToMany(mappedBy = "pessoa")
+    private List<Pedido> Pedido;
     // Getters and Setters
     public int getIdPessoa() {
         return idPessoa;
@@ -108,23 +109,11 @@ public class Pessoa {
         this.pessoaTipos = pessoaTipos;
     }
 
+    public List<Pedido> getPedido() {
+        return Pedido;
+    }
 
-    // Métodos estáticos para a persistência
-    public static List<Pessoa> buscarPorNome(String nome) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("mekhane");
-        EntityManager em = emf.createEntityManager();
-        List<Pessoa> listaPessoa = null;
-
-        try {
-            String jpql = "SELECT p FROM Pessoa p WHERE p.nome LIKE :nome";
-            TypedQuery<Pessoa> query = em.createQuery(jpql, Pessoa.class);
-            query.setParameter("nome", "%" + nome + "%");
-            listaPessoa = query.getResultList();
-        } finally {
-            em.close();
-            emf.close();
-        }
-        return listaPessoa;
+    public void setPedido(List<Pedido> pedido) {
+        Pedido = pedido;
     }
 }
-
