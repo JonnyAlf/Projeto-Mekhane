@@ -18,7 +18,7 @@ public class OrcamentoDTO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idorcamento;
 
-    @Column (name = "valortotal")
+    @Column(name = "valortotal")
     private double valorTotal;
 
     @OneToMany(mappedBy = "orcamento")

@@ -1,5 +1,7 @@
 package org.fag.model;
 
+import java.time.LocalTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -17,99 +19,98 @@ import jakarta.persistence.Table;
 public class Pedido {
 
   @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPedido;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int idPedido;
 
-    @Column(name = "confirmar_pedido")
-    private boolean confirmarPedido;
+  @Column(name = "confirmar_pedido")
+  private boolean confirmarPedido;
 
-    @Column(name = "horas_servico")
-    private int horasServico;
+  @Column(name = "horas_servico")
+  private LocalTime horasServico;
 
-    @ManyToOne
-    @JoinColumn(name = "idpeca")
-    private Peca peca;
+  @ManyToOne
+  @JoinColumn(name = "idpeca")
+  private Peca peca;
 
-    @ManyToOne
-    @JoinColumn(name = "idservico")
-    private Servico servico;
+  @ManyToOne
+  @JoinColumn(name = "idservico")
+  private Servico servico;
 
-    @ManyToOne
-    @JoinColumn(name = "idveiculo")
-    private Veiculo veiculo;
+  @ManyToOne
+  @JoinColumn(name = "idveiculo")
+  private Veiculo veiculo;
 
-    @OneToOne
-    @JsonIgnore
-    @JoinColumn(name = "idpessoa")
-    private Pessoa pessoa;
+  @OneToOne
+  @JoinColumn(name = "idpessoa")
+  private Pessoa pessoa;
 
-    @ManyToOne
-    @JoinColumn(name = "idorcamento") 
-    private OrcamentoDTO orcamento;
+  @ManyToOne
+  @JoinColumn(name = "idorcamento")
+  @JsonIgnore
+  private OrcamentoDTO orcamento;
 
-    public int getIdPedido() {
-      return idPedido;
-    }
+  public int getIdPedido() {
+    return idPedido;
+  }
 
-    public void setIdPedido(int idPedido) {
-      this.idPedido = idPedido;
-    }
+  public void setIdPedido(int idPedido) {
+    this.idPedido = idPedido;
+  }
 
-    public boolean isConfirmarPedido() {
-      return confirmarPedido;
-    }
+  public boolean isConfirmarPedido() {
+    return confirmarPedido;
+  }
 
-    public void setConfirmarPedido(boolean confirmarPedido) {
-      this.confirmarPedido = confirmarPedido;
-    }
+  public void setConfirmarPedido(boolean confirmarPedido) {
+    this.confirmarPedido = confirmarPedido;
+  }
 
-    public int getHorasServico() {
-      return horasServico;
-    }
+  public LocalTime getHorasServico() {
+    return horasServico;
+  }
 
-    public void setHorasServico(int horasServico) {
-      this.horasServico = horasServico;
-    }
+  public void setHorasServico(LocalTime horasServico) {
+    this.horasServico = horasServico;
+  }
 
-    public Peca getPeca() {
-      return peca;
-    }
+  public Peca getPeca() {
+    return peca;
+  }
 
-    public void setPeca(Peca peca) {
-      this.peca = peca;
-    }
+  public void setPeca(Peca peca) {
+    this.peca = peca;
+  }
 
-    public Servico getServico() {
-      return servico;
-    }
+  public Servico getServico() {
+    return servico;
+  }
 
-    public void setServico(Servico servico) {
-      this.servico = servico;
-    }
+  public void setServico(Servico servico) {
+    this.servico = servico;
+  }
 
-    public Veiculo getVeiculo() {
-      return veiculo;
-    }
+  public Veiculo getVeiculo() {
+    return veiculo;
+  }
 
-    public void setVeiculo(Veiculo veiculo) {
-      this.veiculo = veiculo;
-    }
+  public void setVeiculo(Veiculo veiculo) {
+    this.veiculo = veiculo;
+  }
 
-    public Pessoa getPessoa() {
-      return pessoa;
-    }
+  public Pessoa getPessoa() {
+    return pessoa;
+  }
 
-    public void setPessoa(Pessoa pessoa) {
-      this.pessoa = pessoa;
-    }
+  public void setPessoa(Pessoa pessoa) {
+    this.pessoa = pessoa;
+  }
 
-    public OrcamentoDTO getOrcamento() {
-      return orcamento;
-    }
+  public OrcamentoDTO getOrcamento() {
+    return orcamento;
+  }
 
-    public void setOrcamento(OrcamentoDTO orcamento) {
-      this.orcamento = orcamento;
-    }
+  public void setOrcamento(OrcamentoDTO orcamento) {
+    this.orcamento = orcamento;
+  }
 
-    
 }

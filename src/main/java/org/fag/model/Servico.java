@@ -2,6 +2,7 @@ package org.fag.model;
 
 import java.time.LocalTime;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,10 +12,11 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "servico")
-public class Servico {
+public class Servico extends PanacheEntityBase{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idservico")
     private int idServico;
     
     @Column (name = "descricao")
@@ -28,6 +30,7 @@ public class Servico {
     
    @Column(name = "tempo_servico")
     private LocalTime tempoServico;
+
 
 public int getIdServico() {
     return idServico;
@@ -69,5 +72,4 @@ public void setTempoServico(LocalTime tempoServico) {
     this.tempoServico = tempoServico;
 }
 
-    
 }
